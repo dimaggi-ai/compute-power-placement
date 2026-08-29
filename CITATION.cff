@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Compute-Power Placement: schedule against scarcity, don't arbitrage the spread"
+authors:
+  - family-names: Nanyonga
+    given-names: Margaret
+    affiliation: DIMAGGI AI
+repository-code: "https://github.com/dimaggi-ai/compute-power-placement"
+license: MIT
+year: 2026
+keywords:
+  - datacenter flexibility
+  - locational marginal price
+  - workload placement
+  - grid-interactive datacenter
+  - AI infrastructure
+  - power-aware scheduling
