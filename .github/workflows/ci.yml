@@ -9,7 +9,11 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install -r calc/requirements.txt
-      - name: Move-vs-stay invariants
-        run: cd calc && python3 test_move_vs_stay.py
+      - name: Move-vs-stay + fleet invariants
+        run: |
+          cd calc && python3 test_move_vs_stay.py
+          cd ../fleet && python3 test_fleet.py
       - name: Figures regenerate
-        run: cd calc && python3 run.py
+        run: |
+          cd calc && python3 run.py
+          cd ../fleet && python3 run.py

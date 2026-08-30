@@ -35,6 +35,14 @@ The picture flips at the **scarcity boundary**. Staying through a single 12-hour
 
 **The thesis, therefore:** the lever is not "arbitrage the $/MWh spread" — energy is too small a share for that to matter on a running fleet. It is **"schedule against scarcity"**: modulate and, where the workload and fabric allow, relocate to *avoid the spikes and reach the stranded power/queue capacity*. The geographical-load-balancing literature established both the price-routing idea and its limit — that naive price-chasing can *raise* total energy use — a generation ago [14]; the AI-era contribution is pricing it in GPU-hours against real nodal dispersion. This is the direct continuation of the [scheduling repo's](https://github.com/dimaggi-ai/scheduler-vs-more-gpus) Pattern 6 (power as a schedulable resource) [15] — from modulating draw in place to moving work across the map.
 
+## From one decision to a fleet policy
+
+The move-vs-stay model prices a single relocation. The [`fleet`](../fleet/) model extends it to the market layer nobody has built: a data-center fleet with a flexible (deferrable/curtailable) load fraction against a real-shaped price process — a diurnal base with rare multi-hour scarcity spikes — under a *scarcity-aware* scheduler that curtails the flexible load in the worst hours (within a small budget) and defers it to the cheapest.
+
+![Fleet scarcity scheduling](../figures/fleet_scarcity.png)
+
+The result confirms the single-decision thesis at fleet scale: curtailing only the **~0.4% of uptime** (three to four hours a month) that are scarcity hours saves ~5% of the fleet's monthly electricity bill — and **~99.9% of that saving comes from the top-1% price hours**, not from tracking the average price. This matches the operator reality the grid-flexibility work reports (Duke: ~76 GW of new load fits the existing grid if new loads curtail ~0.25% of uptime [6]). A scarcity-aware scheduler that touches almost nothing captures almost all of the value — because the value was never in the spread; it was in the spikes.
+
 ## The hard boundary: what can actually move
 
 The finding above assumes the job *can* relocate. The physics constrains which can:
@@ -51,6 +59,7 @@ So the highest-value workload (synchronous training) is the least movable, which
 - **Deterministic single-move economics.** Real placement is a sequence of decisions against a stochastic price process; this model prices one move against a known spread and one known spike, which is enough to establish the *ordering* (scarcity ≫ spread) but not an operating policy.
 - **The 3–4% energy share assumes ~$2.5/GPU-hour.** At much lower effective GPU costs (amortized owned hardware) energy share rises and spread-arbitrage strengthens; the model exposes `dollars_per_gpu_h` for exactly this.
 - **Data gravity is unmodelled.** A frontier training corpus is tens of TB and must be pre-replicated; the model assumes the dataset is already at the destination.
+- **The fleet model assumes deferral headroom and a constant base load.** Curtailed flexible work is deferred to the cheapest hours assuming capacity exists to absorb it; it does not model per-hour power-envelope limits at the destination hours or workload-specific deferral deadlines. Because the deferred energy is small (a few flex-MW-hours spread over a month of cheap hours) the dollar result is insensitive to this, but a production scheduler would honor deadlines and headroom explicitly.
 
 ## What it is
 

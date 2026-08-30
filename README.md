@@ -20,6 +20,8 @@ Energy is a rounding error on the GPU-hour cost normally (~3%), so the average p
 
 For a 405B job (~6.5 TB state) on 16,384 GPUs, one migration costs ~$27k (mostly ~0.6 h of fleet idle). Earning that back on a $30/MWh spread needs the job to keep running for days; typical *average* spreads ($10–40/MWh) sit right in the marginal band, so most jobs should stay. The [`move-vs-stay` model](calc/move_vs_stay.py) computes the decision, the break-even spread, and the scarcity-avoidance benefit for any job.
 
+A companion [`fleet`](fleet/) model extends this from one decision to a fleet policy: a scarcity-aware scheduler that curtails the flexible load only in the ~0.4% of hours that are scarcity spikes saves ~5% of the fleet's energy bill, and **~99.9% of that saving comes from the top-1% price hours** — the same 'schedule against scarcity' finding, now at fleet scale.
+
 ## The hard boundary: what can actually move
 
 Inference geo-routes freely (890+ GW of wind within 50 ms RTT of Azure [7]); **synchronous frontier training does not** (43 ms coast-to-coast RTT kills it [8]) — the escape route is async low-communication training (DiLoCo-class), proven at 10B but not frontier scale [9]. So the highest-value workload is the least movable, which is exactly why the honest lever is scarcity-aware scheduling and siting — the production instances are power-seeking operators (Crusoe, Lancium, Soluna) and grid-interactive designs (Emerald AI, the 96 MW Aurora facility) [12, 13].
@@ -28,8 +30,8 @@ Inference geo-routes freely (890+ GW of wind within 50 ms RTT of Azure [7]); **s
 
 ```
 pip install -r calc/requirements.txt
-make test        # the move-vs-stay invariants (energy share, break-even, scarcity)
-make figures     # the two figures above
+make test        # move-vs-stay + fleet scarcity-scheduling invariants
+make figures     # break-even, energy-share/scarcity, and the fleet figure
 ```
 
 Python 3.11+, `numpy`, `matplotlib`. Every calibration value is an input; see [docs/study.md](docs/study.md#what-a-skeptic-should-attack) for what to push on (the destination-fleet precondition, data gravity, the $/GPU-hour assumption).
