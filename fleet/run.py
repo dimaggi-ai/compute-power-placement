@@ -13,10 +13,16 @@ from fleet_sim import Fleet, simulate, price_series
 
 
 def fig(figdir: Path):
+    import statistics as st
     cfg = Fleet(seed=0)
     rng = np.random.default_rng(cfg.seed)
     p = price_series(cfg, rng)
-    r = simulate(cfg)
+    r = simulate(cfg)                                  # the pictured month (seed 0)
+    mean_pct = st.mean(simulate(Fleet(seed=s))["saving_pct"] for s in range(24))
+    # honest concentration: a policy FREE to curtail EVERY scarcity hour (budget
+    # far exceeds the top-1% set), so a high top-1% share is not a budget artifact
+    conc = st.mean(simulate(Fleet(seed=s, curtail_budget_frac=0.10))
+                   ["saving_from_top1pct_hours_frac"] for s in range(24))
     fig, (axL, axR) = plt.subplots(1, 2, figsize=(11, 4.3),
                                    gridspec_kw={"width_ratios": [2, 1]})
     # left: the price series with scarcity spikes and the curtailment threshold
@@ -28,16 +34,17 @@ def fig(figdir: Path):
     axL.set_title("A month of nodal prices: a diurnal base with rare scarcity spikes\n"
                   f"(scarcity-aware curtails only its {r['hours_curtailed']} worst hours — "
                   f"{r['curtailed_frac_of_uptime']*100:.2f}% of uptime)")
-    # right: where the saving comes from
-    top1 = r["saving_from_top1pct_hours_frac"]
-    axR.bar(["top-1%\nprice hours", "all other\nhours"],
-            [top1, 1 - top1], color=["#c0504d", "#bbbbbb"])
+    # right: where the saving CONCENTRATES, for a policy free to curtail every
+    # scarcity hour — this is the finding, and it is not a budget artifact
+    axR.bar(["top-1%\nprice hours", "all other\nscarcity hrs"],
+            [conc, 1 - conc], color=["#c0504d", "#bbbbbb"])
     axR.set_ylim(0, 1)
-    axR.set_ylabel("share of the $ saved")
-    axR.set_title(f"Saving ${r['saving_dollars']/1000:,.0f}k/mo ({r['saving_pct']*100:.1f}%)\n"
-                  "almost all from the scarcity hours")
-    axR.text(0, top1 + 0.02, f"{top1*100:.1f}%", ha="center", fontsize=9)
-    fig.suptitle("Fleet scarcity scheduling: curtail a little, at the right hours", y=1.02)
+    axR.set_ylabel("share of avoided $ (curtail-all policy)")
+    axR.set_title(f"Even curtailing every scarcity hour,\n{conc*100:.0f}% of avoided cost is the top-1%")
+    axR.text(0, conc + 0.02, f"{conc*100:.0f}%", ha="center", fontsize=9)
+    fig.suptitle("Fleet scarcity scheduling — pictured month saves "
+                 f"{r['saving_pct']*100:.1f}%, ~{mean_pct*100:.0f}% across seeds "
+                 "(ERCOT-scale $5k/MWh cap)", y=1.02)
     fig.tight_layout()
     fig.savefig(figdir / "fleet_scarcity.png", dpi=150, bbox_inches="tight")
     plt.close(fig)

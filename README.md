@@ -20,7 +20,7 @@ Energy is a rounding error on the GPU-hour cost normally (~3%), so the average p
 
 For a 405B job (~6.5 TB state) on 16,384 GPUs, one migration costs ~$27k (mostly ~0.6 h of fleet idle). Earning that back on a $30/MWh spread needs the job to keep running for days; typical *average* spreads ($10–40/MWh) sit right in the marginal band, so most jobs should stay. The [`move-vs-stay` model](calc/move_vs_stay.py) computes the decision, the break-even spread, and the scarcity-avoidance benefit for any job.
 
-A companion [`fleet`](fleet/) model extends this from one decision to a fleet policy: a scarcity-aware scheduler that curtails the flexible load only in the ~0.4% of hours that are scarcity spikes saves ~5% of the fleet's energy bill, and **~99.9% of that saving comes from the top-1% price hours** — the same 'schedule against scarcity' finding, now at fleet scale.
+A companion [`fleet`](fleet/) model extends this from one decision to a fleet policy, and the result is a *concentration*, not a spread: under an ERCOT-scale $5k/MWh spike cap, a scarcity-aware scheduler that curtails the flexible load in only the ~0.4% worst hours saves ~5% of the fleet's energy bill (a 24-seed mean; **3.4% in the pictured month**, and the percentage roughly thirds if the spike cap halves). What's robust across calibrations is *where* the saving lives: even a policy free to curtail **every** scarcity hour still draws **~72% of its avoided cost from the single top-1% of hours**, and the saving vanishes with the spikes turned off. The portable claim is "schedule against scarcity, not the spread," now at fleet scale.
 
 ## The hard boundary: what can actually move
 
