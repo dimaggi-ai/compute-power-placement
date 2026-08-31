@@ -19,7 +19,9 @@ from __future__ import annotations
 import dataclasses
 import math
 
-BYTES_PER_PARAM = 16          # fp32 weights + Adam moments (ZeRO convention)
+# ZeRO convention: fp16 params (2) + fp16 grads (2) + fp32 params, momentum
+# and variance (4+4+4) = 16. NOT 'fp32 weights + Adam moments', which is 12.
+BYTES_PER_PARAM = 16
 
 
 @dataclasses.dataclass

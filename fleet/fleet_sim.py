@@ -8,13 +8,19 @@ diurnal base with rare scarcity spikes — how much does a *scarcity-aware*
 scheduler save over a price-blind one, and where does the saving come from?
 
 The finding the single-decision model predicts, now at fleet scale: the saving
-is small but CONCENTRATED — even a policy free to curtail every scarcity hour
-draws most of its avoided cost from the top ~1% of hours, and with the scarcity
-process off it collapses to under 1%. This is "schedule against scarcity, not
-the spread," quantified for a fleet. The headline percentage is spike-cap-bound
-(ERCOT-scale $5k/MWh here); the concentration is the portable claim. It rhymes
-with the operator reality (Duke: ~76 GW of new load fits the existing grid if
-new loads curtail ~0.25% of uptime) — a capacity-hosting result, same lever.
+is small, it lives entirely in the scarcity hours (with the spike process off no
+hour clears the threshold and the saving is exactly zero), and WHICH hours the
+budget is spent on decides most of it — ranking the eligible hours by price beats
+spending the same budget on a random selection of them in every simulated price
+year. This is "schedule against scarcity, not the spread," quantified for a
+fleet. The avoided cost is also concentrated in the top ~1% of hours, but that
+is a property of the price process rather than of the policy (see the note on
+`saving_from_top1pct_hours_frac` below). The headline percentage is bound by the synthetic
+spike ceiling ($5k/MWh here, a conservative model input — see validation.py's
+`spike-ceiling-is-a-model-input`); what is portable is that RANKING the eligible
+hours by price beats not ranking them. It rhymes with the operator reality
+(Duke: ~76 GW of new load fits the existing grid if new loads curtail ~0.25% of
+annual energy) — a capacity-hosting result, same lever.
 
 Deterministic per seed. Transparent: every calibration value is an input.
 """
@@ -40,6 +46,11 @@ class Fleet:
     # policy
     curtail_threshold_mwh: float = 200.0  # curtail flexible load above this price
     curtail_budget_frac: float = 0.005    # <= 0.5% of hours may be curtailed
+    # Which above-threshold hours the budget is spent on. The shipped policy
+    # ranks by price; the other two exist so the ranking can be switched OFF
+    # and the scheduler measured against a scheduler that does not rank.
+    # Without them "the policy saves X%" has nothing to be X% better *than*.
+    curtail_order: str = "most-expensive-first"
 
 
 def price_series(cfg: Fleet, rng) -> np.ndarray:
@@ -72,7 +83,18 @@ def simulate(cfg: Fleet) -> dict:
     # energy to the cheapest hours.
     budget_h = int(cfg.curtail_budget_frac * cfg.horizon_h)
     order = np.argsort(-p)                                   # most expensive first
-    curtail_hours = [int(i) for i in order if p[i] > cfg.curtail_threshold_mwh][:budget_h]
+    eligible = [int(i) for i in order if p[i] > cfg.curtail_threshold_mwh]
+    # The default leaves `eligible` in descending-price order, so the shipped
+    # policy is byte-for-byte what it was before this knob existed.
+    if cfg.curtail_order == "most-expensive-first":
+        pass
+    elif cfg.curtail_order == "least-expensive-first":
+        eligible.reverse()
+    elif cfg.curtail_order == "random":
+        np.random.default_rng(cfg.seed + 9_999).shuffle(eligible)
+    else:
+        raise ValueError(f"unknown curtail_order {cfg.curtail_order!r}")
+    curtail_hours = eligible[:budget_h]
     cheap_hours = [int(i) for i in np.argsort(p)]           # cheapest first
 
     firm_cost = float((firm_mw * p).sum())
@@ -102,14 +124,22 @@ def simulate(cfg: Fleet) -> dict:
     # (flexible energy NOT bought during curtailed hours) by how much of it falls
     # in the single most expensive 1% of hours. This is NOT tautological: once the
     # budget exceeds the top-1% count, curtailed hours spill outside the top-1%
-    # set and the fraction drops below 1 — so a high fraction at a generous budget
-    # is a real concentration finding, not a restatement of the construction.
+    # set and the fraction drops below 1. But note what this does NOT show: the
+    # ratio is identical under any curtail_order (verified to 6 decimals in
+    # ../validation.py), so it measures the PRICE PROCESS, not the policy. It is
+    # set by spike_rate_per_h and spike_len_h. For a policy-sensitive measure,
+    # compare savings across curtail_order settings.
     top1 = set(int(i) for i in order[:max(1, cfg.horizon_h // 100)])
     gross_avoided = float(sum(flex_mw * p[i] for i in curtail_hours))
     gross_from_top1 = float(sum(flex_mw * p[i] for i in curtail_hours if i in top1))
     return {
         "seed": cfg.seed,
         "hours_curtailed": len(curtail_hours),
+        # Hours above the scarcity threshold. When this is <= budget_h the
+        # budget does not bind, every eligible hour is curtailed, and the
+        # RANKING cannot matter — such runs carry no information about the
+        # policy and the validation registry excludes them by name.
+        "eligible_hours": len(eligible),
         "curtailed_frac_of_uptime": round(len(curtail_hours) / cfg.horizon_h, 5),
         "curtailed_mwh": round(curtailed_mwh, 3),
         "deferred_mwh": round(filled, 3),

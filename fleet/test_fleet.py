@@ -52,6 +52,32 @@ def test_small_budget_curtails_only_the_worst_hours():
     assert _mean("saving_from_top1pct_hours_frac") > 0.95
 
 
+def test_ranking_beats_not_ranking():
+    """The policy-sensitive test the concentration metric cannot do: with the
+    SAME budget, threshold and prices, spending it on the highest-priced eligible
+    hours must beat spending it on a random selection of them. Asserted at year
+    scale, where the budget binds in every seed."""
+    for s in range(8):
+        base = simulate(Fleet(seed=s, horizon_h=8760))
+        rnd = simulate(Fleet(seed=s, horizon_h=8760, curtail_order="random"))
+        rev = simulate(Fleet(seed=s, horizon_h=8760,
+                             curtail_order="least-expensive-first"))
+        assert base["eligible_hours"] > base["hours_curtailed"], s
+        assert base["saving_pct"] > rnd["saving_pct"] > rev["saving_pct"], s
+
+
+def test_concentration_is_blind_to_the_policy():
+    """The counterpart: the top-1% concentration metric is IDENTICAL however the
+    budget is spent, so it measures the price process and cannot be cited as
+    evidence about the scheduler."""
+    for s in range(8):
+        a = simulate(Fleet(seed=s, curtail_budget_frac=1.0))
+        b = simulate(Fleet(seed=s, curtail_budget_frac=1.0,
+                           curtail_order="least-expensive-first"))
+        assert (a["saving_from_top1pct_hours_frac"]
+                == b["saving_from_top1pct_hours_frac"]), s
+
+
 def test_concentration_is_not_a_budget_artifact():
     """The real finding: give the scheduler a budget large enough to curtail EVERY
     scarcity hour, in a many-spike regime where curtailed hours far outnumber the
@@ -63,23 +89,30 @@ def test_concentration_is_not_a_budget_artifact():
     assert 0.1 < frac < 0.95, frac
 
 
-def test_no_spikes_means_almost_no_saving():
-    """With the scarcity process off, scarcity-aware scheduling has little to do
-    (only the diurnal shape), so the saving collapses. The value is in the spikes,
-    not the spread."""
+def test_no_spikes_means_exactly_no_saving():
+    """With the scarcity process off, no hour reaches the $200 threshold at all
+    (max price ~$85/MWh), so the policy is inert and the saving is EXACTLY zero.
+    The earlier form of this test allowed <1% and was glossed as 'diurnal
+    deferral only' — a mechanism this model does not have."""
     with_spikes = _mean("saving_pct")
     without = _mean("saving_pct", spike_rate_per_h=0.0)
     assert without < with_spikes
-    assert without < 0.01                              # <1% without spikes
+    assert without == 0.0
+    for s in range(8):
+        assert simulate(Fleet(seed=s, spike_rate_per_h=0.0))["hours_curtailed"] == 0
 
 
-def test_headline_percent_is_spike_cap_bound():
+def test_headline_percent_is_spike_ceiling_bound():
     """The saving PERCENTAGE is a function of the spike magnitude, not a universal
-    constant: halving the spike cap materially shrinks it. The direction (concentration)
-    is robust; the number is calibration-bound, and the docs say so."""
+    constant. Concretely (24-seed means): $5,000 -> 4.83%, $2,500 -> 3.16%,
+    $2,000 -> 2.71%, $1,000 -> 1.65%. So halving the ceiling costs about a third
+    of the saving, and it takes a FIFTH of the ceiling to third it — the repo
+    used to say 'roughly thirds if the cap halves', which is wrong."""
     big = _mean("saving_pct", spike_max_mwh=5000.0)
-    small = _mean("saving_pct", spike_max_mwh=1000.0)
-    assert small < 0.6 * big                           # cap matters a lot
+    half = _mean("saving_pct", spike_max_mwh=2500.0)
+    fifth = _mean("saving_pct", spike_max_mwh=1000.0)
+    assert 0.60 * big < half < 0.72 * big              # halving -> ~two-thirds
+    assert 0.28 * big < fifth < 0.40 * big             # a fifth -> ~a third
 
 
 def test_more_flexible_load_saves_more():
