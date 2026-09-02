@@ -9,13 +9,15 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install -r calc/requirements.txt
-      - name: Move-vs-stay + fleet invariants
+      - name: Move-vs-stay + fleet + stay/stitch/move invariants
         run: |
           cd calc && python3 test_move_vs_stay.py
           cd ../fleet && python3 test_fleet.py
+          cd ../span && python3 test_stay_stitch_move.py
       - name: Validation registry (models vs the public record)
         run: python3 test_validation.py && python3 validation.py
       - name: Figures regenerate
         run: |
           cd calc && python3 run.py
           cd ../fleet && python3 run.py
+          cd ../span && python3 run.py

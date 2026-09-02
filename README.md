@@ -24,6 +24,12 @@ A companion [`fleet`](fleet/) model extends this from one decision to a fleet po
 
 What is portable is not the percentage but the **ranking**: spending the same curtailment budget on the highest-priced eligible hours beats spending it on a *random* selection of the same hours in **every one of 24 simulated price years** (1.4–2.0×), and beats the reversed policy by 2.6–8×. That is the claim that can fail, so it is the one the validation registry asserts. The avoided cost is also concentrated — ~80% of it falls in the top 1% of hours — but that number is identical however the scheduler spends its budget, so it describes the *price process*, not the policy, and this repo no longer presents it as the finding.
 
+## The second scarcity type: stay / stitch / move
+
+![Stay / stitch / move](figures/stay_stitch_move.png)
+
+The models above price one scarcity type — power. The [`span`](span/) model adds the second — **capacity** — and the option that only exists with two halls: **stitch** an inter-hall circuit and run across both. One ledger, one currency (dollars per *useful* GPU-hour): the stitch tax is the **named cut**, not the circuit price — a pipeline-stage cut costs ~2% over the buy-in-hall reference, a data-parallel All-Reduce cut costs **~7.5×** (the gradient exchange is ~1.6 TB a step for 405B; the tax is payload, not latency, so no shorter fibre rescues it). Stitching to chase cheaper power is dominated by both staying and moving — the spread-arbitrage echo one level up — and when the away hall can host the whole job, **move swallows the stitch on every cell of the decision grid**: the stitch is not a discount move, it is the only way to run a job no single hall can host. Two halls together one GPU short of the job is an **escalate**, not a rounding-down.
+
 ## The hard boundary: what can actually move
 
 Inference geo-routes freely (890+ GW of wind within 50 ms RTT of Azure [7]); **synchronous frontier training does not** (43 ms coast-to-coast RTT kills it [8]) — the escape route is async low-communication training (DiLoCo-class), proven at 10B but not frontier scale [9]. So the highest-value workload is the least movable, which is exactly why the honest lever is scarcity-aware scheduling and siting — the production instances are power-seeking operators (Crusoe, Lancium, Soluna) and grid-interactive designs (Emerald AI, the 96 MW Aurora facility) [12, 13].
@@ -72,8 +78,8 @@ make validation    # the registry, models vs public record
 
 ```
 pip install -r calc/requirements.txt
-make test        # the registry + move-vs-stay and fleet invariants
-make figures     # break-even, energy-share/scarcity, and the fleet figure
+make test        # move-vs-stay + fleet + stay/stitch/move invariants + the registry
+make figures     # break-even, energy-share/scarcity, fleet, stay/stitch/move
 ```
 
 Python 3.11+, `numpy`, `matplotlib`. Every calibration value is an input; see [docs/study.md](docs/study.md#what-a-skeptic-should-attack) for what to push on (the destination-fleet precondition, data gravity, the $/GPU-hour assumption).
@@ -82,7 +88,7 @@ Python 3.11+, `numpy`, `matplotlib`. Every calibration value is an input; see [d
 
 - **GPU Cluster Networking** ([network-vs-more-gpus](https://github.com/dimaggi-ai/network-vs-more-gpus))
 - **GPU Cluster Scheduling** ([scheduler-vs-more-gpus](https://github.com/dimaggi-ai/scheduler-vs-more-gpus)) — power as a schedulable resource
-- **Compute↔Power Placement** (this work) — move work across the grid map, priced
+- **Compute↔Power Placement** (this work) — move work across the grid map, priced; stay/stitch/move across halls in the same ledger
 - **Chaos Fidelity Standard** ([ai-cluster-chaos-fidelity](https://github.com/dimaggi-ai/ai-cluster-chaos-fidelity)) · **Reliability Economics** ([reliability-economics](https://github.com/dimaggi-ai/reliability-economics))
 
 ---
