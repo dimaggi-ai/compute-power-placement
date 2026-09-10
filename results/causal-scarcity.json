@@ -1,0 +1,1639 @@
+{
+  "runs": [
+    {
+      "seed": 0,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 60068095.07195641,
+        "blind_cost_dollars": 61639796.47253679,
+        "saving_dollars": 1571701.4005803764,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 0,
+        "hours_curtailed": 43,
+        "eligible_hours": 152,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 61639796.0,
+        "aware_cost_dollars": 59314592.0,
+        "saving_dollars": 2325204.0,
+        "saving_pct": 0.0377,
+        "gross_avoided_dollars": 2353065.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1993.0
+      }
+    },
+    {
+      "seed": 1,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 58048222.70157119,
+        "blind_cost_dollars": 59440314.75191265,
+        "saving_dollars": 1392092.0503414646,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 1,
+        "hours_curtailed": 43,
+        "eligible_hours": 140,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 59440315.0,
+        "aware_cost_dollars": 57326544.0,
+        "saving_dollars": 2113771.0,
+        "saving_pct": 0.0356,
+        "gross_avoided_dollars": 2141428.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1978.0
+      }
+    },
+    {
+      "seed": 2,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 60460983.936836064,
+        "blind_cost_dollars": 61679586.18595159,
+        "saving_dollars": 1218602.2491155267,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 2,
+        "hours_curtailed": 43,
+        "eligible_hours": 164,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 61679586.0,
+        "aware_cost_dollars": 59548931.0,
+        "saving_dollars": 2130655.0,
+        "saving_pct": 0.0345,
+        "gross_avoided_dollars": 2158816.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1793.0
+      }
+    },
+    {
+      "seed": 3,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 60059070.96448968,
+        "blind_cost_dollars": 61515237.664695434,
+        "saving_dollars": 1456166.7002057508,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 3,
+        "hours_curtailed": 43,
+        "eligible_hours": 152,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 61515238.0,
+        "aware_cost_dollars": 59240625.0,
+        "saving_dollars": 2274613.0,
+        "saving_pct": 0.037,
+        "gross_avoided_dollars": 2302424.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1977.0
+      }
+    },
+    {
+      "seed": 4,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 58330515.12949421,
+        "blind_cost_dollars": 59867788.613589294,
+        "saving_dollars": 1537273.4840950817,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 4,
+        "hours_curtailed": 43,
+        "eligible_hours": 136,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 59867789.0,
+        "aware_cost_dollars": 57631866.0,
+        "saving_dollars": 2235923.0,
+        "saving_pct": 0.0373,
+        "gross_avoided_dollars": 2263649.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1948.0
+      }
+    },
+    {
+      "seed": 5,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 55636286.16963389,
+        "blind_cost_dollars": 57235878.43080702,
+        "saving_dollars": 1599592.261173129,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 5,
+        "hours_curtailed": 43,
+        "eligible_hours": 112,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 57235878.0,
+        "aware_cost_dollars": 54995875.0,
+        "saving_dollars": 2240003.0,
+        "saving_pct": 0.0391,
+        "gross_avoided_dollars": 2267776.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1994.0
+      }
+    },
+    {
+      "seed": 6,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 60255350.85883878,
+        "blind_cost_dollars": 61916978.516324654,
+        "saving_dollars": 1661627.6574858725,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 6,
+        "hours_curtailed": 43,
+        "eligible_hours": 152,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 61916979.0,
+        "aware_cost_dollars": 59666938.0,
+        "saving_dollars": 2250041.0,
+        "saving_pct": 0.0363,
+        "gross_avoided_dollars": 2278364.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 2000.0
+      }
+    },
+    {
+      "seed": 7,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 54415070.70551875,
+        "blind_cost_dollars": 55765284.039093785,
+        "saving_dollars": 1350213.3335750327,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 7,
+        "hours_curtailed": 43,
+        "eligible_hours": 100,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 55765284.0,
+        "aware_cost_dollars": 53674605.0,
+        "saving_dollars": 2090680.0,
+        "saving_pct": 0.0375,
+        "gross_avoided_dollars": 2118669.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1885.0
+      }
+    },
+    {
+      "seed": 8,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 57964206.89930451,
+        "blind_cost_dollars": 59735858.54945235,
+        "saving_dollars": 1771651.6501478404,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 8,
+        "hours_curtailed": 43,
+        "eligible_hours": 140,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 59735859.0,
+        "aware_cost_dollars": 57552207.0,
+        "saving_dollars": 2183651.0,
+        "saving_pct": 0.0366,
+        "gross_avoided_dollars": 2211145.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1965.0
+      }
+    },
+    {
+      "seed": 9,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 57293603.00678429,
+        "blind_cost_dollars": 58877842.64817513,
+        "saving_dollars": 1584239.6413908377,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 9,
+        "hours_curtailed": 43,
+        "eligible_hours": 128,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 58877843.0,
+        "aware_cost_dollars": 56619677.0,
+        "saving_dollars": 2258166.0,
+        "saving_pct": 0.0384,
+        "gross_avoided_dollars": 2286579.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1928.0
+      }
+    },
+    {
+      "seed": 10,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 55110152.22399369,
+        "blind_cost_dollars": 56529002.820018806,
+        "saving_dollars": 1418850.5960251167,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 10,
+        "hours_curtailed": 43,
+        "eligible_hours": 112,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 56529003.0,
+        "aware_cost_dollars": 54354206.0,
+        "saving_dollars": 2174797.0,
+        "saving_pct": 0.0385,
+        "gross_avoided_dollars": 2202074.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1979.0
+      }
+    },
+    {
+      "seed": 11,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 59634639.55152788,
+        "blind_cost_dollars": 61138162.8463949,
+        "saving_dollars": 1503523.2948670164,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 11,
+        "hours_curtailed": 43,
+        "eligible_hours": 144,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 61138163.0,
+        "aware_cost_dollars": 58871162.0,
+        "saving_dollars": 2267001.0,
+        "saving_pct": 0.0371,
+        "gross_avoided_dollars": 2294580.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1945.0
+      }
+    },
+    {
+      "seed": 12,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 60462081.379071474,
+        "blind_cost_dollars": 62186970.604533345,
+        "saving_dollars": 1724889.2254618704,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 12,
+        "hours_curtailed": 43,
+        "eligible_hours": 152,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 62186971.0,
+        "aware_cost_dollars": 59830792.0,
+        "saving_dollars": 2356179.0,
+        "saving_pct": 0.0379,
+        "gross_avoided_dollars": 2383490.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1982.0
+      }
+    },
+    {
+      "seed": 13,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 61116818.46983932,
+        "blind_cost_dollars": 62879682.97896931,
+        "saving_dollars": 1762864.5091299936,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 13,
+        "hours_curtailed": 43,
+        "eligible_hours": 148,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 62879683.0,
+        "aware_cost_dollars": 60479558.0,
+        "saving_dollars": 2400125.0,
+        "saving_pct": 0.0382,
+        "gross_avoided_dollars": 2427380.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1963.0
+      }
+    },
+    {
+      "seed": 14,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 61222497.939260095,
+        "blind_cost_dollars": 62821463.17883641,
+        "saving_dollars": 1598965.2395763174,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 14,
+        "hours_curtailed": 43,
+        "eligible_hours": 160,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 62821463.0,
+        "aware_cost_dollars": 60499571.0,
+        "saving_dollars": 2321893.0,
+        "saving_pct": 0.037,
+        "gross_avoided_dollars": 2349637.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1981.0
+      }
+    },
+    {
+      "seed": 15,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 62709584.22741413,
+        "blind_cost_dollars": 64379318.17026128,
+        "saving_dollars": 1669733.9428471476,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 15,
+        "hours_curtailed": 43,
+        "eligible_hours": 179,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 64379318.0,
+        "aware_cost_dollars": 62191699.0,
+        "saving_dollars": 2187619.0,
+        "saving_pct": 0.034,
+        "gross_avoided_dollars": 2215832.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1984.0
+      }
+    },
+    {
+      "seed": 16,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 60015445.29186703,
+        "blind_cost_dollars": 61477226.76430617,
+        "saving_dollars": 1461781.47243914,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 16,
+        "hours_curtailed": 43,
+        "eligible_hours": 140,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 61477227.0,
+        "aware_cost_dollars": 59080579.0,
+        "saving_dollars": 2396647.0,
+        "saving_pct": 0.039,
+        "gross_avoided_dollars": 2424479.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1990.0
+      }
+    },
+    {
+      "seed": 17,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 63451138.720790975,
+        "blind_cost_dollars": 64935372.44042596,
+        "saving_dollars": 1484233.7196349874,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 17,
+        "hours_curtailed": 43,
+        "eligible_hours": 172,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 64935372.0,
+        "aware_cost_dollars": 62562706.0,
+        "saving_dollars": 2372666.0,
+        "saving_pct": 0.0365,
+        "gross_avoided_dollars": 2400923.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1982.0
+      }
+    },
+    {
+      "seed": 18,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 59136465.66656709,
+        "blind_cost_dollars": 60881465.70923802,
+        "saving_dollars": 1745000.0426709354,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 18,
+        "hours_curtailed": 43,
+        "eligible_hours": 136,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 60881466.0,
+        "aware_cost_dollars": 58516287.0,
+        "saving_dollars": 2365179.0,
+        "saving_pct": 0.0388,
+        "gross_avoided_dollars": 2393771.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1998.0
+      }
+    },
+    {
+      "seed": 19,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 61912947.81051354,
+        "blind_cost_dollars": 63317572.67863627,
+        "saving_dollars": 1404624.8681227267,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 19,
+        "hours_curtailed": 43,
+        "eligible_hours": 168,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 63317573.0,
+        "aware_cost_dollars": 60968858.0,
+        "saving_dollars": 2348715.0,
+        "saving_pct": 0.0371,
+        "gross_avoided_dollars": 2376809.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1970.0
+      }
+    },
+    {
+      "seed": 20,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 57905086.80784498,
+        "blind_cost_dollars": 59442500.2235978,
+        "saving_dollars": 1537413.4157528207,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 20,
+        "hours_curtailed": 43,
+        "eligible_hours": 132,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 59442500.0,
+        "aware_cost_dollars": 57212396.0,
+        "saving_dollars": 2230105.0,
+        "saving_pct": 0.0375,
+        "gross_avoided_dollars": 2257937.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1985.0
+      }
+    },
+    {
+      "seed": 21,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 61652786.659867644,
+        "blind_cost_dollars": 63347378.186006635,
+        "saving_dollars": 1694591.5261389911,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 21,
+        "hours_curtailed": 43,
+        "eligible_hours": 152,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 63347378.0,
+        "aware_cost_dollars": 61006289.0,
+        "saving_dollars": 2341089.0,
+        "saving_pct": 0.037,
+        "gross_avoided_dollars": 2369392.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1930.0
+      }
+    },
+    {
+      "seed": 22,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 57089412.70653625,
+        "blind_cost_dollars": 58581452.64576328,
+        "saving_dollars": 1492039.9392270297,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 22,
+        "hours_curtailed": 43,
+        "eligible_hours": 128,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 58581453.0,
+        "aware_cost_dollars": 56319852.0,
+        "saving_dollars": 2261601.0,
+        "saving_pct": 0.0386,
+        "gross_avoided_dollars": 2289380.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1905.0
+      }
+    },
+    {
+      "seed": 23,
+      "spike_ceiling": 2000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 59050167.19821546,
+        "blind_cost_dollars": 60597351.41879763,
+        "saving_dollars": 1547184.2205821648,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 23,
+        "hours_curtailed": 43,
+        "eligible_hours": 144,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 60597351.0,
+        "aware_cost_dollars": 58416363.0,
+        "saving_dollars": 2180988.0,
+        "saving_pct": 0.036,
+        "gross_avoided_dollars": 2208609.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 1996.0
+      }
+    },
+    {
+      "seed": 0,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 80117191.35069203,
+        "blind_cost_dollars": 83642991.8135524,
+        "saving_dollars": 3525800.4628603607,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 0,
+        "hours_curtailed": 43,
+        "eligible_hours": 152,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 83642992.0,
+        "aware_cost_dollars": 77901658.0,
+        "saving_dollars": 5741334.0,
+        "saving_pct": 0.0686,
+        "gross_avoided_dollars": 5769194.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4980.0
+      }
+    },
+    {
+      "seed": 1,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 75190368.94240728,
+        "blind_cost_dollars": 78172756.36891921,
+        "saving_dollars": 2982387.4265119284,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 1,
+        "hours_curtailed": 43,
+        "eligible_hours": 140,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 78172756.0,
+        "aware_cost_dollars": 73066129.0,
+        "saving_dollars": 5106627.0,
+        "saving_pct": 0.0653,
+        "gross_avoided_dollars": 5134285.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4933.0
+      }
+    },
+    {
+      "seed": 2,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 80068677.36343823,
+        "blind_cost_dollars": 82535019.14754063,
+        "saving_dollars": 2466341.784102395,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 2,
+        "hours_curtailed": 43,
+        "eligible_hours": 164,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 82535019.0,
+        "aware_cost_dollars": 77376731.0,
+        "saving_dollars": 5158288.0,
+        "saving_pct": 0.0625,
+        "gross_avoided_dollars": 5186449.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4379.0
+      }
+    },
+    {
+      "seed": 3,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 80085143.89838415,
+        "blind_cost_dollars": 83257061.01754571,
+        "saving_dollars": 3171917.119161561,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 3,
+        "hours_curtailed": 43,
+        "eligible_hours": 152,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 83257061.0,
+        "aware_cost_dollars": 77667601.0,
+        "saving_dollars": 5589460.0,
+        "saving_pct": 0.0671,
+        "gross_avoided_dollars": 5617271.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4931.0
+      }
+    },
+    {
+      "seed": 4,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 76218041.71115778,
+        "blind_cost_dollars": 79642518.51785445,
+        "saving_dollars": 3424476.8066966683,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 4,
+        "hours_curtailed": 43,
+        "eligible_hours": 136,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 79642519.0,
+        "aware_cost_dollars": 74169297.0,
+        "saving_dollars": 5473221.0,
+        "saving_pct": 0.0687,
+        "gross_avoided_dollars": 5500947.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4843.0
+      }
+    },
+    {
+      "seed": 5,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 70262122.35574932,
+        "blind_cost_dollars": 73868666.68559131,
+        "saving_dollars": 3606544.3298419863,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 5,
+        "hours_curtailed": 43,
+        "eligible_hours": 112,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 73868667.0,
+        "aware_cost_dollars": 68383111.0,
+        "saving_dollars": 5485555.0,
+        "saving_pct": 0.0743,
+        "gross_avoided_dollars": 5513328.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4983.0
+      }
+    },
+    {
+      "seed": 6,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 80562066.12183999,
+        "blind_cost_dollars": 84355609.9375673,
+        "saving_dollars": 3793543.8157273084,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 6,
+        "hours_curtailed": 43,
+        "eligible_hours": 152,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 84355610.0,
+        "aware_cost_dollars": 78838840.0,
+        "saving_dollars": 5516770.0,
+        "saving_pct": 0.0654,
+        "gross_avoided_dollars": 5545093.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4999.0
+      }
+    },
+    {
+      "seed": 7,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 68065122.13441694,
+        "blind_cost_dollars": 70925385.72442785,
+        "saving_dollars": 2860263.590010911,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 7,
+        "hours_curtailed": 43,
+        "eligible_hours": 100,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 70925386.0,
+        "aware_cost_dollars": 65887369.0,
+        "saving_dollars": 5038017.0,
+        "saving_pct": 0.071,
+        "gross_avoided_dollars": 5066006.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4654.0
+      }
+    },
+    {
+      "seed": 8,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 74909259.35079448,
+        "blind_cost_dollars": 79025145.17903873,
+        "saving_dollars": 4115885.828244254,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 8,
+        "hours_curtailed": 43,
+        "eligible_hours": 140,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 79025145.0,
+        "aware_cost_dollars": 73709205.0,
+        "saving_dollars": 5315940.0,
+        "saving_pct": 0.0673,
+        "gross_avoided_dollars": 5343434.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4894.0
+      }
+    },
+    {
+      "seed": 9,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 73958251.04216158,
+        "blind_cost_dollars": 77525129.75407347,
+        "saving_dollars": 3566878.711911887,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 9,
+        "hours_curtailed": 43,
+        "eligible_hours": 128,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 77525130.0,
+        "aware_cost_dollars": 71983805.0,
+        "saving_dollars": 5541324.0,
+        "saving_pct": 0.0715,
+        "gross_avoided_dollars": 5569738.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4783.0
+      }
+    },
+    {
+      "seed": 10,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 69095522.12577675,
+        "blind_cost_dollars": 72164739.85950144,
+        "saving_dollars": 3069217.7337246835,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 10,
+        "hours_curtailed": 43,
+        "eligible_hours": 112,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 72164740.0,
+        "aware_cost_dollars": 66875795.0,
+        "saving_dollars": 5288945.0,
+        "saving_pct": 0.0733,
+        "gross_avoided_dollars": 5316222.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4937.0
+      }
+    },
+    {
+      "seed": 11,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 79520706.9066109,
+        "blind_cost_dollars": 82839945.07844006,
+        "saving_dollars": 3319238.171829149,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 11,
+        "hours_curtailed": 43,
+        "eligible_hours": 144,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 82839945.0,
+        "aware_cost_dollars": 77273784.0,
+        "saving_dollars": 5566161.0,
+        "saving_pct": 0.0672,
+        "gross_avoided_dollars": 5593740.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4836.0
+      }
+    },
+    {
+      "seed": 12,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 81168438.74694654,
+        "blind_cost_dollars": 85151768.7256865,
+        "saving_dollars": 3983329.978739962,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 12,
+        "hours_curtailed": 43,
+        "eligible_hours": 152,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 85151769.0,
+        "aware_cost_dollars": 79318609.0,
+        "saving_dollars": 5833160.0,
+        "saving_pct": 0.0685,
+        "gross_avoided_dollars": 5860471.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4945.0
+      }
+    },
+    {
+      "seed": 13,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 83563790.00344704,
+        "blind_cost_dollars": 87663193.05062467,
+        "saving_dollars": 4099403.0471776277,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 13,
+        "hours_curtailed": 43,
+        "eligible_hours": 148,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 87663193.0,
+        "aware_cost_dollars": 81698309.0,
+        "saving_dollars": 5964884.0,
+        "saving_pct": 0.068,
+        "gross_avoided_dollars": 5992139.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4889.0
+      }
+    },
+    {
+      "seed": 14,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 82859110.9088795,
+        "blind_cost_dollars": 86458473.53392582,
+        "saving_dollars": 3599362.625046313,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 14,
+        "hours_curtailed": 43,
+        "eligible_hours": 160,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 86458474.0,
+        "aware_cost_dollars": 80727307.0,
+        "saving_dollars": 5731166.0,
+        "saving_pct": 0.0663,
+        "gross_avoided_dollars": 5758910.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4943.0
+      }
+    },
+    {
+      "seed": 15,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 85459006.25903714,
+        "blind_cost_dollars": 89282008.88267833,
+        "saving_dollars": 3823002.623641193,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 15,
+        "hours_curtailed": 43,
+        "eligible_hours": 179,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 89282009.0,
+        "aware_cost_dollars": 83952726.0,
+        "saving_dollars": 5329283.0,
+        "saving_pct": 0.0597,
+        "gross_avoided_dollars": 5357496.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4953.0
+      }
+    },
+    {
+      "seed": 16,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 81154504.15764646,
+        "blind_cost_dollars": 84355580.08722147,
+        "saving_dollars": 3201075.929575011,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 16,
+        "hours_curtailed": 43,
+        "eligible_hours": 140,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 84355580.0,
+        "aware_cost_dollars": 78399974.0,
+        "saving_dollars": 5955606.0,
+        "saving_pct": 0.0706,
+        "gross_avoided_dollars": 5983438.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4971.0
+      }
+    },
+    {
+      "seed": 17,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 88337823.79802512,
+        "blind_cost_dollars": 91598585.10466875,
+        "saving_dollars": 3260761.306643635,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 17,
+        "hours_curtailed": 43,
+        "eligible_hours": 172,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 91598585.0,
+        "aware_cost_dollars": 85714074.0,
+        "saving_dollars": 5884511.0,
+        "saving_pct": 0.0642,
+        "gross_avoided_dollars": 5912768.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4946.0
+      }
+    },
+    {
+      "seed": 18,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 78809844.43729104,
+        "blind_cost_dollars": 82851285.74737333,
+        "saving_dollars": 4041441.3100822866,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 18,
+        "hours_curtailed": 43,
+        "eligible_hours": 136,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 82851286.0,
+        "aware_cost_dollars": 76988565.0,
+        "saving_dollars": 5862721.0,
+        "saving_pct": 0.0708,
+        "gross_avoided_dollars": 5891313.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4994.0
+      }
+    },
+    {
+      "seed": 19,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 84202113.77237834,
+        "blind_cost_dollars": 87221286.85659784,
+        "saving_dollars": 3019173.0842195004,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 19,
+        "hours_curtailed": 43,
+        "eligible_hours": 168,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 87221287.0,
+        "aware_cost_dollars": 81408955.0,
+        "saving_dollars": 5812332.0,
+        "saving_pct": 0.0666,
+        "gross_avoided_dollars": 5840426.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4909.0
+      }
+    },
+    {
+      "seed": 20,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 75610267.45132275,
+        "blind_cost_dollars": 79036083.77319749,
+        "saving_dollars": 3425816.3218747377,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 20,
+        "hours_curtailed": 43,
+        "eligible_hours": 132,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 79036084.0,
+        "aware_cost_dollars": 73580105.0,
+        "saving_dollars": 5455979.0,
+        "saving_pct": 0.069,
+        "gross_avoided_dollars": 5483811.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4954.0
+      }
+    },
+    {
+      "seed": 21,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 84726334.93786205,
+        "blind_cost_dollars": 88620215.54153287,
+        "saving_dollars": 3893880.6036708206,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 21,
+        "hours_curtailed": 43,
+        "eligible_hours": 152,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 88620216.0,
+        "aware_cost_dollars": 82830341.0,
+        "saving_dollars": 5789874.0,
+        "saving_pct": 0.0653,
+        "gross_avoided_dollars": 5818177.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4789.0
+      }
+    },
+    {
+      "seed": 22,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 73163642.25378048,
+        "blind_cost_dollars": 76444676.45059119,
+        "saving_dollars": 3281034.1968107074,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 22,
+        "hours_curtailed": 43,
+        "eligible_hours": 128,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 76444676.0,
+        "aware_cost_dollars": 70894316.0,
+        "saving_dollars": 5550360.0,
+        "saving_pct": 0.0726,
+        "gross_avoided_dollars": 5578139.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4715.0
+      }
+    },
+    {
+      "seed": 23,
+      "spike_ceiling": 5000,
+      "causal": {
+        "evidence_class": "simulated",
+        "input_class": "scenario",
+        "cost_dollars": 77826559.15429805,
+        "blind_cost_dollars": 81277091.93392918,
+        "saving_dollars": 3450532.779631123,
+        "served_mwh": 876000.0,
+        "unserved_mwh": 0.0,
+        "extra_headroom_mw": 30.0,
+        "limitations": [
+          "Synthetic prices unless caller supplies external observations.",
+          "Extra catch-up power/compute headroom is an explicit assumption.",
+          "Constant conversion between deferred energy and useful work; no migration or SLA model."
+        ]
+      },
+      "offline_oracle": {
+        "seed": 23,
+        "hours_curtailed": 43,
+        "eligible_hours": 144,
+        "curtailed_frac_of_uptime": 0.00491,
+        "curtailed_mwh": 1290.0,
+        "deferred_mwh": 1290.0,
+        "blind_cost_dollars": 81277092.0,
+        "aware_cost_dollars": 75968887.0,
+        "saving_dollars": 5308205.0,
+        "saving_pct": 0.0653,
+        "gross_avoided_dollars": 5335826.0,
+        "saving_from_top1pct_hours_frac": 1.0,
+        "max_price_mwh": 4987.0
+      }
+    }
+  ],
+  "evidence_class": "simulated",
+  "baseline": "Identical price sequence, flexible fraction and curtailment budget.",
+  "qualification": "Offline comparator can rank future prices and shift work backwards in time; it is not a deployable policy."
+}

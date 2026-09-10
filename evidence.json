@@ -1,0 +1,243 @@
+{
+  "schema_version": "dimaggi-evidence/v1",
+  "coverage_scope": "Consequential headline claims, governing assumptions and model limits. Not a catalog of helper constants or proof that citations are correct.",
+  "sources": {
+    "calc/move_vs_stay.py": {
+      "source_type": "model-assumption",
+      "location": "calc/move_vs_stay.py",
+      "version_date": "2026-09-10 closure working tree; SHA-256 bound below",
+      "license_or_reuse": "Repository-authored analysis; third-party facts referenced, no new external raw data redistributed",
+      "scope": "Local authoritative definition or claim. External provenance retained in SOURCES/REFERENCES and inline citations; scenario choices are not empirical measurements."
+    },
+    "fleet/causal.py": {
+      "source_type": "model-assumption",
+      "location": "fleet/causal.py",
+      "version_date": "2026-09-10 closure working tree; SHA-256 bound below",
+      "license_or_reuse": "Repository-authored analysis; third-party facts referenced, no new external raw data redistributed",
+      "scope": "Local authoritative definition or claim. External provenance retained in SOURCES/REFERENCES and inline citations; scenario choices are not empirical measurements."
+    },
+    "results/causal-scarcity.json": {
+      "source_type": "experiment-output",
+      "location": "results/causal-scarcity.json",
+      "version_date": "2026-09-10 closure working tree; SHA-256 bound below",
+      "license_or_reuse": "Repository-authored analysis; third-party facts referenced, no new external raw data redistributed",
+      "scope": "Local authoritative definition or claim. External provenance retained in SOURCES/REFERENCES and inline citations; scenario choices are not empirical measurements."
+    },
+    "REFERENCES.md": {
+      "source_type": "model-assumption",
+      "location": "REFERENCES.md",
+      "version_date": "2026-09-10 closure working tree; SHA-256 bound below",
+      "license_or_reuse": "Repository-authored analysis; third-party facts referenced, no new external raw data redistributed",
+      "scope": "Local authoritative definition or claim. External provenance retained in SOURCES/REFERENCES and inline citations; scenario choices are not empirical measurements."
+    },
+    "README.md": {
+      "source_type": "model-assumption",
+      "location": "README.md",
+      "version_date": "2026-09-10 closure working tree; SHA-256 bound below",
+      "license_or_reuse": "Repository-authored analysis; third-party facts referenced, no new external raw data redistributed",
+      "scope": "Local authoritative definition or claim. External provenance retained in SOURCES/REFERENCES and inline citations; scenario choices are not empirical measurements."
+    }
+  },
+  "inputs": [
+    {
+      "name": "valuation power",
+      "unit": "kW/GPU",
+      "evidence_class": "scenario",
+      "sources": [
+        "README.md"
+      ],
+      "transformation": "Power-per-GPU planning assumption including overhead",
+      "uncertainty": "Deliberately hypothetical/operator policy; not an observed universal bound",
+      "affected_outputs": [
+        "published conclusion",
+        "results/causal-scarcity.json",
+        "README.md"
+      ],
+      "value": 1.4,
+      "valid_bounds": [
+        0,
+        140
+      ]
+    },
+    {
+      "name": "electricity example",
+      "unit": "USD/MWh",
+      "evidence_class": "scenario",
+      "sources": [
+        "README.md"
+      ],
+      "transformation": "Illustrative average price, not current market quote",
+      "uncertainty": "Deliberately hypothetical/operator policy; not an observed universal bound",
+      "affected_outputs": [
+        "published conclusion",
+        "results/causal-scarcity.json",
+        "README.md"
+      ],
+      "value": 60,
+      "valid_bounds": [
+        0,
+        6000
+      ]
+    },
+    {
+      "name": "scarcity ceiling",
+      "unit": "USD/MWh",
+      "evidence_class": "scenario",
+      "sources": [
+        "README.md"
+      ],
+      "transformation": "Hypothetical sensitivity ceiling; not present ERCOT real-time cap",
+      "uncertainty": "Deliberately hypothetical/operator policy; not an observed universal bound",
+      "affected_outputs": [
+        "published conclusion",
+        "results/causal-scarcity.json",
+        "README.md"
+      ],
+      "value": 5000,
+      "valid_bounds": [
+        0,
+        500000
+      ]
+    },
+    {
+      "name": "lower ceiling",
+      "unit": "USD/MWh",
+      "evidence_class": "scenario",
+      "sources": [
+        "README.md"
+      ],
+      "transformation": "Alternative scenario; historical regulatory attribution is in REFERENCES.md",
+      "uncertainty": "Deliberately hypothetical/operator policy; not an observed universal bound",
+      "affected_outputs": [
+        "published conclusion",
+        "results/causal-scarcity.json",
+        "README.md"
+      ],
+      "value": 2000,
+      "valid_bounds": [
+        0,
+        200000
+      ]
+    },
+    {
+      "name": "migration footprint",
+      "unit": "GPUs",
+      "evidence_class": "scenario",
+      "sources": [
+        "README.md"
+      ],
+      "transformation": "Homogeneous illustrative training fleet",
+      "uncertainty": "Deliberately hypothetical/operator policy; not an observed universal bound",
+      "affected_outputs": [
+        "published conclusion",
+        "results/causal-scarcity.json",
+        "README.md"
+      ],
+      "value": 16384,
+      "valid_bounds": [
+        0,
+        1638400
+      ]
+    }
+  ],
+  "results": [
+    {
+      "name": "power share",
+      "unit": "fraction of GPU-hour cost",
+      "evidence_class": "derived",
+      "sources": [
+        "README.md"
+      ],
+      "transformation": "Conditional on stated power, energy and GPU-hour price",
+      "uncertainty": "Scope and qualifications stated in transformation and linked source; no unreported confidence interval",
+      "affected_outputs": [
+        "published conclusion",
+        "results/causal-scarcity.json",
+        "README.md"
+      ],
+      "value": 0.034,
+      "valid_bounds": [
+        0,
+        3.4000000000000004
+      ]
+    },
+    {
+      "name": "offline energy saving",
+      "unit": "fraction",
+      "evidence_class": "simulated",
+      "sources": [
+        "README.md"
+      ],
+      "transformation": "24-seed offline oracle at 5000 ceiling; not deployable policy benefit",
+      "uncertainty": "Conditional model result; not production outcome or empirical confidence interval",
+      "affected_outputs": [
+        "published conclusion",
+        "results/causal-scarcity.json",
+        "README.md"
+      ],
+      "value": 0.048,
+      "valid_bounds": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "lower-ceiling saving",
+      "unit": "fraction",
+      "evidence_class": "simulated",
+      "sources": [
+        "README.md"
+      ],
+      "transformation": "24-seed oracle at 2000 ceiling",
+      "uncertainty": "Conditional model result; not production outcome or empirical confidence interval",
+      "affected_outputs": [
+        "published conclusion",
+        "results/causal-scarcity.json",
+        "README.md"
+      ],
+      "value": 0.027,
+      "valid_bounds": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "causal comparison",
+      "unit": "claim",
+      "evidence_class": "simulated",
+      "sources": [
+        "results/causal-scarcity.json"
+      ],
+      "transformation": "48 comparisons conserve served energy and charge extra catch-up headroom; prices remain synthetic",
+      "uncertainty": "Conditional model result; not production outcome or empirical confidence interval",
+      "affected_outputs": [
+        "published conclusion",
+        "results/causal-scarcity.json",
+        "README.md"
+      ],
+      "statement": "48 comparisons conserve served energy and charge extra catch-up headroom; prices remain synthetic"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "calc/move_vs_stay.py",
+      "sha256": "19165f6bfdab29b0ea62f934764c1893ae737336dd493c53b2a21ed8545eb3de"
+    },
+    {
+      "path": "fleet/causal.py",
+      "sha256": "2aa094bb87890e6443e03e997cccb25ae18027fdce6b2b86d976bd92c5699d4d"
+    },
+    {
+      "path": "results/causal-scarcity.json",
+      "sha256": "e36addc6fe1241bd3ff5081fc7b64ec0eb34b34ea05109d82d6d2d91f4fbfbe4"
+    },
+    {
+      "path": "REFERENCES.md",
+      "sha256": "e97aab73b0313820f1d94a3a76a7a3f5e261c794aaffae3686515dd17e7a3176"
+    },
+    {
+      "path": "README.md",
+      "sha256": "2afe4f7746e9bc3932e22fa77c5ed695ca29f513fddcb6de6d1153152dd81051"
+    }
+  ]
+}
