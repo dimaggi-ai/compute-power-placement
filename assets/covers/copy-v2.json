@@ -1,0 +1,18 @@
+[
+  {
+    "repo": "compute-power-placement",
+    "label": "AI INFRASTRUCTURE RESEARCH",
+    "title": [
+      "Should the job",
+      "move to the power?"
+    ],
+    "subtitle": [
+      "Decision models for migration,",
+      "energy scarcity, and useful GPU-hours."
+    ],
+    "fontSize": 58,
+    "background": "illustration-v2.png",
+    "output": ".",
+    "source_readme_commit": "81c239c9f3f33421189f16db329ff351f3fdadba"
+  }
+]
