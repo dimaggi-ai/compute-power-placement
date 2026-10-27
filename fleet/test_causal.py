@@ -2,7 +2,8 @@
 
     python3 -m fleet.test_causal
 
-An assertion failure exits nonzero, as required by make test and CI.
+The two named invariants must be present; additional test_ functions are run.
+Missing tests or assertion failures exit nonzero, as required by make test and CI.
 """
 import math
 from fleet.causal import replay
@@ -23,7 +24,15 @@ def test_future_prices_cannot_change_past_actions():
 
 
 if __name__ == "__main__":
+    if not __debug__:
+        raise SystemExit("causal tests require assertions enabled")
     tests = sorted(name for name in globals() if name.startswith("test_"))
+    required = {"test_energy_and_headroom_conservation", "test_future_prices_cannot_change_past_actions"}
+    missing = sorted(required.difference(tests))
+    if missing:
+        raise SystemExit("missing required causal tests: " + ", ".join(missing))
+    if any(not callable(globals()[name]) for name in tests):
+        raise SystemExit("causal test names must refer to callable functions")
     for name in tests:
         globals()[name]()
         print(f"ok {name}")
