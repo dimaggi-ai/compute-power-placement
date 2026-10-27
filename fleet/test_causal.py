@@ -1,3 +1,9 @@
+"""Causal fleet invariants. Run from the repository root:
+
+    python3 -m fleet.test_causal
+
+An assertion failure exits nonzero, as required by make test and CI.
+"""
 import math
 from fleet.causal import replay
 
@@ -14,3 +20,11 @@ def test_future_prices_cannot_change_past_actions():
     a=replay([10,500,100,20,30,40],budget_fraction=.5)
     b=replay([10,500,100,5000,5000,5000],budget_fraction=.5)
     assert a['actions'][:3]==b['actions'][:3]
+
+
+if __name__ == "__main__":
+    tests = sorted(name for name in globals() if name.startswith("test_"))
+    for name in tests:
+        globals()[name]()
+        print(f"ok {name}")
+    print(f"all {len(tests)} causal tests passed")
