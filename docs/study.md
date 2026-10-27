@@ -76,22 +76,21 @@ four numbers, one currency (dollars per *useful* GPU-hour delivered):
   recurring tax and a circuit hold without ever leaving the expensive hall.
   The model that rejected spread-arbitrage for migration rejects it again for
   the stitch, for the same reason: the fix costs more than the fuel.
-- **When the destination fits the job, move swallows the stitch.** Measured
-  over the whole decision grid: if the away hall can host the *entire* job,
-  the stitch never wins a single cell — a one-off migration (~$27k) beats a
-  recurring tax every time. The stitch is not a discount move; it is **the
-  only way to run a job no single hall can host**, which is the scale-across
-  case: home holds 8,192 of 16,384, away holds 10,000, and under a deadline
-  the pipeline-cut stitch is the *only* feasible option (with an All-Reduce
-  cut, nothing is — the ledger says escalate; the named cut decides whether
-  scale-across exists at all).
+- **When the destination fits the job, stitch loses in the tested sample.**
+  In the CI test's 3×3 combinations of capacity deficit and power-spike hours,
+  with a 200-hour deadline and an away hall that can host the *entire* job,
+  stitch never wins. This sampled result does not establish every possible
+  input or decision-grid cell. The scale-across example is different: home holds
+  8,192 of 16,384 GPUs, away holds 10,000, and the pipeline-cut stitch is the
+  only feasible option under the modeled deadline. With an All-Reduce cut,
+  nothing is feasible and the ledger says escalate.
 - **Without a deadline, shrinking wins on dollars.** Under perfect scaling
   (which flatters it, and the ledger's note says so) the shrunk job spends the
-  same GPU-hours and merely takes twice the calendar. The case for the stitch
-  is the calendar, not the meter — and a home-hall price spike inverts stay
-  first, because the stretched job sits exposed to the spikes for its whole
-  duration, while the stitch's home half keeps paying them and only a full
-  move escapes.
+  same useful GPU-hours; its compute takes twice as long in the half-sized
+  example, plus a reload for the shrink. The case for the stitch is elapsed
+  time, not the useful GPU-hour meter. A home-hall price spike can invert stay
+  first because the stretched job is exposed during its compute time, while
+  the stitch's home half keeps paying and only a full move escapes.
 
 The decision map (right panel) puts both scarcity types on one chart: capacity
 scarcity argues for the stitch, power scarcity argues for the move, and the
