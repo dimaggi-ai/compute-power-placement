@@ -143,7 +143,12 @@ def _energy_dollars(mw: float, hall: Hall, hours: float) -> float:
     return mw * hall.expected_price_mwh() * hours
 
 
-def _option(name, feasible, dollars, duration_h, note, job):
+def _option(name, feasible, dollars, duration_h, note, job, *, check_deadline=False):
+    """Admit scheduled options using raw elapsed time, then round for display."""
+    if (feasible and check_deadline and job.deadline_h
+            and duration_h > job.deadline_h):
+        feasible = False
+        note = f"elapsed duration {duration_h}h misses the deadline ({job.deadline_h}h)"
     per_useful = dollars / job.useful_gpu_hours if feasible else float("inf")
     return {
         "option": name,
@@ -161,36 +166,41 @@ def ledger(job: SpanJob, home: Hall, away: Hall,
     move — plus the buy reference, priced per useful GPU-hour delivered.
 
     The job is RUNNING at the home hall when scarcity lands, so every option
-    pays its transition: stay-shrunk pays a restart at the smaller size;
+    pays its required transition: stay-shrunk pays a restart at the smaller size;
     stitch pays the same state transfer and restart as move (the away half
     needs the checkpoint there before it can hold a step — an upper bound,
     charged so the stitch is never flattered against the move); move pays the
-    full migration of ../calc."""
+    full migration of ../calc. Staying at full size requires no restart.
+
+    duration_h reports elapsed compute plus transition time, rounded to
+    0.1 h only after checking the unrounded deadline. A rounded display can
+    therefore slightly exceed a met deadline. None and zero retain their
+    existing no-deadline behavior. The buy reference is not a scheduled option.
+    Priced compute, energy and circuit durations remain compute-only, with
+    existing transition dollar charges separate: no transition is charged twice.
+    These are synthetic model decisions, not execution authority."""
     R = job.useful_gpu_hours
     deficit = max(0, job.gpus_needed - home.free_gpus)
 
     # ---- STAY: shrink to the home hall and run longer (perfect scaling).
     g_home = min(job.gpus_needed, home.free_gpus)
     if g_home > 0:
-        dur = R / g_home
+        compute_h = R / g_home
+        elapsed_h = compute_h + (job.reload_h if deficit else 0.0)
         mw = g_home * job.kw_per_gpu / 1000.0
         dollars = (R * job.dollars_per_gpu_h            # same GPU-hours, longer
-                   + _energy_dollars(mw, home, dur)
+                   + _energy_dollars(mw, home, compute_h)
                    + (g_home * job.reload_h * job.dollars_per_gpu_h
                       if deficit else 0.0))   # restart only if it must shrink
         stay = _option(
-            "stay", True, dollars, dur,
+            "stay", True, dollars, elapsed_h,
             ("shrunk to %d of %d GPUs; perfect scaling assumed (flatters this "
              "option); the longer run is exposed to the home hall's spikes for "
-             "its whole duration" % (g_home, job.gpus_needed)) if deficit
+             "its compute duration" % (g_home, job.gpus_needed)) if deficit
             else "full size at home",
-            job)
+            job, check_deadline=True)
     else:
         stay = _option("stay", False, 0, 0, "the home hall has nothing free", job)
-    if stay["feasible"] and job.deadline_h and stay["duration_h"] > job.deadline_h:
-        stay = _option("stay", False, 0, 0,
-                       f"shrunk duration {stay['duration_h']}h misses the "
-                       f"deadline ({job.deadline_h}h)", job)
 
     # ---- STITCH: full size across both halls, tax on every step.
     tax = stitch_tax(job, circuit, cut)
@@ -203,45 +213,40 @@ def ledger(job: SpanJob, home: Hall, away: Hall,
         g_away_needed = job.gpus_needed // 2 if can_stitch else 0
     if can_stitch and tax < 1.0:
         g_home_used = job.gpus_needed - g_away_needed
-        dur = R / (job.gpus_needed * (1 - tax))
+        compute_h = R / (job.gpus_needed * (1 - tax))
+        elapsed_h = compute_h + job.migration_downtime_h
         mw_home = g_home_used * job.kw_per_gpu / 1000.0
         mw_away = g_away_needed * job.kw_per_gpu / 1000.0
-        dollars = (job.gpus_needed * dur * job.dollars_per_gpu_h   # taxed GPU-hours
-                   + circuit.hold_dollars_per_h * dur
-                   + _energy_dollars(mw_home, home, dur)
-                   + _energy_dollars(mw_away, away, dur)
+        dollars = (job.gpus_needed * compute_h * job.dollars_per_gpu_h   # taxed GPU-hours
+                   + circuit.hold_dollars_per_h * compute_h
+                   + _energy_dollars(mw_home, home, compute_h)
+                   + _energy_dollars(mw_away, away, compute_h)
                    + job.migration_cost_dollars)   # state to the away half + restart
         stitch = _option(
-            "stitch", True, dollars, dur,
+            "stitch", True, dollars, elapsed_h,
             f"cut: {cut.name}; tax {tax:.1%} of every step on both sides; "
             f"{g_home_used} GPUs home + {g_away_needed} away; the home share "
-            "stays exposed to home spikes", job)
+            "stays exposed to home spikes", job, check_deadline=True)
     else:
         stitch = _option("stitch", False, 0, 0,
                          "away hall cannot supply the deficit" if deficit
                          else "no capacity to reach", job)
-    if stitch["feasible"] and job.deadline_h and stitch["duration_h"] > job.deadline_h:
-        stitch = _option("stitch", False, 0, 0,
-                         f"taxed duration {stitch['duration_h']}h misses the "
-                         f"deadline ({job.deadline_h}h)", job)
 
     # ---- MOVE: the whole job to the away hall (destination must exist).
     if away.free_gpus >= job.gpus_needed:
-        dur = job.migration_downtime_h + job.hours_at_full
+        elapsed_h = job.migration_downtime_h + job.hours_at_full
         dollars = (job.migration_cost_dollars
                    + R * job.dollars_per_gpu_h
                    + _energy_dollars(job.power_mw_full, away, job.hours_at_full))
         move = _option(
-            "move", True, dollars, dur,
+            "move", True, dollars, elapsed_h,
             f"migration idles the fleet {job.migration_downtime_h:.2f}h; "
             "requires the full fleet free at the destination — priced only "
-            "because it is", job)
+            "because it is", job, check_deadline=True)
     else:
         move = _option("move", False, 0, 0,
                        "the away hall cannot host the whole job (the "
                        "destination-fleet precondition of ../calc)", job)
-    if move["feasible"] and job.deadline_h and move["duration_h"] > job.deadline_h:
-        move = _option("move", False, 0, 0, "migration misses the deadline", job)
 
     # ---- BUY: the reference floor, not an option — the scarce hall by
     # definition cannot sell it.
