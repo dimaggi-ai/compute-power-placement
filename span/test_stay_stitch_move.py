@@ -96,7 +96,7 @@ def test_without_a_deadline_shrinking_wins_on_dollars():
     led = ledger(JOB, home, away, CIRCUIT, pipeline_cut(JOB))
     assert led["decision"] == "stay"
     stay = _opt(led, "stay")
-    assert stay["duration_h"] == 2 * JOB.hours_at_full
+    assert stay["duration_h"] == 2 * JOB.hours_at_full + JOB.reload_h
     # with the deadline the same scenario flips to move (away CAN host here)
     led2 = ledger(DEADLINED, home, away, CIRCUIT, pipeline_cut(DEADLINED))
     assert led2["decision"] == "move"
@@ -131,8 +131,8 @@ def test_migration_mechanics_match_the_calc_model():
 
 
 def test_a_destination_that_fits_the_job_makes_move_swallow_the_stitch():
-    """Measured over the whole decision grid (25x25: deficit 0-60%, spikes
-    0-24 h/wk): when the away hall can host the ENTIRE job, the stitch never
+    """Checked over a 3x3 sample (deficit 0, 25, 50%; spikes 0, 12, 24 h/wk):
+    when the away hall can host the ENTIRE job, the stitch never
     wins a single cell — a one-off migration beats a recurring tax every time.
     The stitch is what you do when no hall is big enough, not a discount move."""
     away = Hall("B", free_gpus=20000)
@@ -153,6 +153,103 @@ def test_when_no_hall_can_sum_to_the_job_the_ledger_escalates():
     assert home.free_gpus + away.free_gpus == DEADLINED.gpus_needed - 1
     led = ledger(DEADLINED, home, away, CIRCUIT, pipeline_cut(DEADLINED))
     assert led["decision"] == "escalate"
+
+
+def test_stitch_transition_can_miss_a_deadline_that_compute_alone_meets():
+    job = dataclasses.replace(JOB, deadline_h=171.0)
+    led = ledger(job, Hall("home", 8192), Hall("away", 10000), CIRCUIT, pipeline_cut(job))
+    assert not _opt(led, "stitch")["feasible"], led
+    assert led["decision"] == "escalate", led
+    recovered = ledger(dataclasses.replace(job, deadline_h=171.47), Hall("home", 8192),
+                       Hall("away", 10000), CIRCUIT, pipeline_cut(job))
+    assert recovered["decision"] == "stitch", recovered
+    assert _opt(recovered, "stitch")["duration_h"] == 171.5
+
+
+def test_shrunk_stay_reload_can_miss_a_deadline_and_recover():
+    job = dataclasses.replace(JOB, deadline_h=336.2)
+    led = ledger(job, Hall("home", 8192), Hall("away", 0), CIRCUIT, pipeline_cut(job))
+    assert not _opt(led, "stay")["feasible"], led
+    assert led["decision"] == "escalate", led
+    recovered = ledger(dataclasses.replace(job, deadline_h=336.5), Hall("home", 8192),
+                       Hall("away", 0), CIRCUIT, pipeline_cut(job))
+    assert recovered["decision"] == "stay", recovered
+    assert _opt(recovered, "stay")["duration_h"] == 336.5
+
+
+def test_move_cannot_round_elapsed_down_to_meet_a_deadline():
+    job = dataclasses.replace(JOB, deadline_h=168.62)
+    led = ledger(job, Hall("home", 0), Hall("away", JOB.gpus_needed), CIRCUIT, pipeline_cut(job))
+    assert not _opt(led, "move")["feasible"], led
+    assert "elapsed duration 168.644h" in _opt(led, "move")["note"], led
+    assert led["decision"] == "escalate", led
+    recovered = ledger(dataclasses.replace(job, deadline_h=168.65), Hall("home", 0),
+                       Hall("away", JOB.gpus_needed), CIRCUIT, pipeline_cut(job))
+    assert recovered["decision"] == "move", recovered
+    assert _opt(recovered, "move")["duration_h"] == 168.6
+
+
+def test_full_size_stay_cannot_round_elapsed_up_to_refuse_a_deadline():
+    job = dataclasses.replace(JOB, hours_at_full=168.06, deadline_h=168.08, reload_h=50.0)
+    led = ledger(job, Hall("home", JOB.gpus_needed), Hall("away", 0), CIRCUIT, pipeline_cut(job))
+    assert _opt(led, "stay")["feasible"], led
+    assert led["decision"] == "stay", led
+    assert _opt(led, "stay")["duration_h"] == 168.1  # display only, no reload at full size
+
+
+def test_exact_elapsed_threshold_and_adjacent_floats_for_each_option():
+    # Binary-exact fixture: four hours of work, a 0.5 h reload, no WAN state,
+    # and a pipeline cut with 0.25 s overhead per 1 s step (five compute hours).
+    job = SpanJob(params_b=0.0, gpus_needed=4, hours_at_full=4.0, step_time_s=1.0)
+    circuit = Circuit(rtt_ms=0.0, gbps=8.0)
+    cut = pipeline_cut(job, activation_gb_per_step=0.25)
+    for option, home_count, elapsed in (("stay", 2, 8.5), ("stay", 4, 4.0),
+                                        ("stitch", 2, 5.5), ("move", 0, 4.5)):
+        for deadline, feasible in ((math.nextafter(elapsed, -math.inf), False),
+                                   (elapsed, True), (math.nextafter(elapsed, math.inf), True)):
+            led = ledger(dataclasses.replace(job, deadline_h=deadline), Hall("home", home_count),
+                         Hall("away", 4), circuit, cut)
+            row = _opt(led, option)
+            assert row["feasible"] is feasible, (option, elapsed, deadline, led)
+            if not feasible:
+                assert all(row[key] is None for key in ("dollars", "duration_h", "dollars_per_useful_gpu_h")), row
+                assert f"elapsed duration {elapsed}h" in row["note"], row
+            assert _opt(led, "buy")["feasible"]  # the reference is not scheduled
+        # Preserve the historical zero sentinel alongside the default None.
+        zero = ledger(dataclasses.replace(job, deadline_h=0.0), Hall("home", home_count),
+                      Hall("away", 4), circuit, cut)
+        unbounded = ledger(job, Hall("home", home_count), Hall("away", 4), circuit, cut)
+        assert zero == unbounded, (zero, unbounded)
+
+
+def test_zero_transition_and_insufficient_capacity_do_not_invent_time_or_capacity():
+    job = SpanJob(params_b=0.0, gpus_needed=4, hours_at_full=4.0, reload_h=0.0)
+    circuit = Circuit(rtt_ms=0.0)
+    cut = pipeline_cut(job, activation_gb_per_step=0.0)
+    led = ledger(job, Hall("home", 2), Hall("away", 4), circuit, cut)
+    assert [_opt(led, option)["duration_h"] for option in ("stay", "stitch", "move")] == [8.0, 4.0, 4.0]
+    for home, away in ((0, 0), (0, 3), (2, 1)):
+        refused = ledger(dataclasses.replace(job, deadline_h=4.0), Hall("home", home),
+                         Hall("away", away), circuit, cut)
+        assert refused["decision"] == "escalate", refused
+        assert not any(o["feasible"] for o in refused["options"][:3]), refused
+
+
+def test_elapsed_correction_preserves_existing_compute_and_transition_dollar_charges():
+    # Frozen synthetic baseline: adding calendar transition time must not charge
+    # another compute, power or circuit interval on top of existing transition costs.
+    led = ledger(JOB, Hall("home", 8192), Hall("away", 20000), CIRCUIT, pipeline_cut(JOB))
+    assert list(led) == ["decision", "stitch_tax", "cut", "capacity_deficit_gpus", "options"]
+    assert [row["option"] for row in led["options"]] == ["stay", "stitch", "move", "buy-in-hall (reference)"]
+    for row in led["options"]:
+        assert list(row) == ["option", "feasible", "dollars", "duration_h", "dollars_per_useful_gpu_h", "note"]
+    expected = {"stay": (7122731.0, 2.5877), "stitch": (7261051.0, 2.6380),
+                "move": (7138999.0, 2.5936), "buy": (7112491.0, 2.5840)}
+    for option, (dollars, per_useful) in expected.items():
+        row = _opt(led, option)
+        assert row["dollars"] == dollars, row
+        assert row["dollars_per_useful_gpu_h"] == per_useful, row
+    assert [_opt(led, option)["duration_h"] for option in ("stay", "stitch", "move")] == [336.5, 171.5, 168.6]
 
 
 if __name__ == "__main__":

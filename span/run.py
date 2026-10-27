@@ -30,7 +30,7 @@ def fig_span(figdir: Path):
     ref = get(led_p, "buy")["dollars_per_useful_gpu_h"]
     bars = [
         ("buy in-hall\n(reference —\nthe hall can't)", ref, "#888888"),
-        ("stay: shrink,\nrun 2x as long", get(led_p, "stay")["dollars_per_useful_gpu_h"], "#4f81bd"),
+        ("stay: shrink,\n2x compute + reload", get(led_p, "stay")["dollars_per_useful_gpu_h"], "#4f81bd"),
         ("stitch,\npipeline cut", get(led_p, "stitch")["dollars_per_useful_gpu_h"], "#4e9a06"),
         ("stitch,\nall-reduce cut", get(led_a, "stitch")["dollars_per_useful_gpu_h"], "#c0504d"),
     ]
