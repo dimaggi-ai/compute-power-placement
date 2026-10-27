@@ -144,6 +144,33 @@ def test_a_destination_that_fits_the_job_makes_move_swallow_the_stitch():
             assert led["decision"] != "stitch", (spike, d, led["decision"])
 
 
+def test_decision_grid_has_no_stitch_when_destination_fits_the_whole_job():
+    """Exercise all 625 cells of run.py's decision grid, not just nine samples.
+
+    numpy.linspace(0, stop, 25) uses these steps and fixes the final endpoint;
+    spelling them out keeps this standalone model test free of plotting imports.
+    The 60%-capacity control is the actual plotted scenario and must contain a
+    stitch, so the comparison does not pass merely because stitch disappeared.
+    """
+    job = SpanJob(deadline_h=200.0)
+    deficits = [i * (0.6 / 24) for i in range(24)] + [0.6]
+    spikes = [i * (24.0 / 24) for i in range(24)] + [24.0]
+    whole = Hall("B", free_gpus=job.gpus_needed)
+    plotted = Hall("B", free_gpus=int(job.gpus_needed * 0.6))
+    count = plotted_stitches = 0
+    for spike in spikes:
+        for deficit in deficits:
+            home = Hall("A", free_gpus=int(job.gpus_needed * (1 - deficit)),
+                        spike_price_mwh=5000.0, spike_hours_per_week=spike)
+            actual = ledger(job, home, whole, CIRCUIT, pipeline_cut(job))
+            assert actual["decision"] != "stitch", (spike, deficit, actual)
+            control = ledger(job, home, plotted, CIRCUIT, pipeline_cut(job))
+            plotted_stitches += control["decision"] == "stitch"
+            count += 1
+    assert count == 625
+    assert plotted_stitches > 0
+
+
 def test_when_no_hall_can_sum_to_the_job_the_ledger_escalates():
     """The knife edge the decision map shows at its far right: two halls that
     together are ONE GPU short of the job leave nothing feasible under the
