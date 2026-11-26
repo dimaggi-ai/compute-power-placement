@@ -38,6 +38,42 @@ says so rather than hiding it. All inputs are explicit. Calibration sources:
 """
 from __future__ import annotations
 import dataclasses
+import math
+import functools
+import numbers
+
+
+def _finite(name, value, *, nonnegative=False):
+    try:
+        numeric = isinstance(value, numbers.Real) and not isinstance(value, bool)
+        valid = numeric and math.isfinite(value)
+    except OverflowError:
+        valid = False
+    if not valid or (nonnegative and value < 0):
+        raise ValueError(f"{name} must be a finite {'nonnegative ' if nonnegative else ''}number")
+    return value
+
+
+def _finite_calculation(fn):
+    """Refuse overflow/nonfinite numeric results, without masking other errors."""
+    @functools.wraps(fn)
+    def checked(*args, **kwargs):
+        try:
+            result = fn(*args, **kwargs)
+        except OverflowError as exc:
+            raise ValueError(f"{fn.__name__} exceeds finite calculation range") from exc
+        def check(value):
+            if isinstance(value, numbers.Real) and not isinstance(value, bool):
+                _finite(fn.__name__ + ' result', value)
+            elif type(value) is dict:
+                for item in value.values():
+                    check(item)
+            elif type(value) in (list, tuple):
+                for item in value:
+                    check(item)
+        check(result)
+        return result
+    return checked
 
 BYTES_PER_PARAM = 16          # fp32 weights + Adam moments (ZeRO convention, as ../calc)
 GRAD_BYTES_PER_PARAM = 2      # bf16 gradients — what a data-parallel cut exchanges
@@ -53,8 +89,12 @@ class Hall:
     spike_price_mwh: float = 0.0
     spike_hours_per_week: float = 0.0
 
+    @_finite_calculation
     def expected_price_mwh(self) -> float:
         """Duration-weighted expected $/MWh, spikes folded in."""
+        _finite("price_mwh", self.price_mwh)
+        _finite("spike_price_mwh", self.spike_price_mwh)
+        _finite("spike_hours_per_week", self.spike_hours_per_week, nonnegative=True)
         if self.spike_hours_per_week <= 0:
             return self.price_mwh
         frac = min(1.0, self.spike_hours_per_week / 168.0)
@@ -139,12 +179,15 @@ def stitch_tax(job: SpanJob, circuit: Circuit, cut: Cut) -> float:
     return extra_s / (job.step_time_s + extra_s)
 
 
+@_finite_calculation
 def _energy_dollars(mw: float, hall: Hall, hours: float) -> float:
     return mw * hall.expected_price_mwh() * hours
 
 
 def _option(name, feasible, dollars, duration_h, note, job, *, check_deadline=False):
     """Admit scheduled options using raw elapsed time, then round for display."""
+    _finite("option dollars", dollars)
+    _finite("option duration_h", duration_h, nonnegative=True)
     if (feasible and check_deadline and job.deadline_h
             and duration_h > job.deadline_h):
         feasible = False
@@ -160,6 +203,7 @@ def _option(name, feasible, dollars, duration_h, note, job, *, check_deadline=Fa
     }
 
 
+@_finite_calculation
 def ledger(job: SpanJob, home: Hall, away: Hall,
            circuit: Circuit, cut: Cut) -> dict:
     """The three-way decision — stay in the scarce hall, stitch a circuit, or
@@ -179,6 +223,11 @@ def ledger(job: SpanJob, home: Hall, away: Hall,
     Priced compute, energy and circuit durations remain compute-only, with
     existing transition dollar charges separate: no transition is charged twice.
     These are synthetic model decisions, not execution authority."""
+    _finite("hours_at_full", job.hours_at_full, nonnegative=True)
+    if job.deadline_h is not None:
+        _finite("deadline_h", job.deadline_h, nonnegative=True)
+    home.expected_price_mwh()
+    away.expected_price_mwh()
     R = job.useful_gpu_hours
     deficit = max(0, job.gpus_needed - home.free_gpus)
 

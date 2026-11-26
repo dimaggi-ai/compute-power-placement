@@ -18,6 +18,41 @@ calibration values are in ../REFERENCES.md.
 from __future__ import annotations
 import dataclasses
 import math
+import functools
+import numbers
+
+
+def _finite(name, value, *, nonnegative=False):
+    try:
+        numeric = isinstance(value, numbers.Real) and not isinstance(value, bool)
+        valid = numeric and math.isfinite(value)
+    except OverflowError:
+        valid = False
+    if not valid or (nonnegative and value < 0):
+        raise ValueError(f"{name} must be a finite {'nonnegative ' if nonnegative else ''}number")
+    return value
+
+
+def _finite_calculation(fn):
+    """Refuse overflow/nonfinite numeric results, without masking other errors."""
+    @functools.wraps(fn)
+    def checked(*args, **kwargs):
+        try:
+            result = fn(*args, **kwargs)
+        except OverflowError as exc:
+            raise ValueError(f"{fn.__name__} exceeds finite calculation range") from exc
+        def check(value):
+            if isinstance(value, numbers.Real) and not isinstance(value, bool):
+                _finite(fn.__name__ + ' result', value)
+            elif type(value) is dict:
+                for item in value.values():
+                    check(item)
+            elif type(value) in (list, tuple):
+                for item in value:
+                    check(item)
+        check(result)
+        return result
+    return checked
 
 # ZeRO convention: fp16 params (2) + fp16 grads (2) + fp32 params, momentum
 # and variance (4+4+4) = 16. NOT 'fp32 weights + Adam moments', which is 12.
@@ -62,16 +97,22 @@ class Job:
         return idle + egress
 
 
+@_finite_calculation
 def energy_saving_dollars(job: Job, remaining_h: float) -> float:
     """Electricity saved by running `remaining_h` at the cheaper site."""
+    _finite("price_here_mwh", job.price_here_mwh)
+    _finite("price_there_mwh", job.price_there_mwh)
+    _finite("remaining_h", remaining_h, nonnegative=True)
     spread = job.price_here_mwh - job.price_there_mwh
     return job.power_mw * spread * remaining_h
 
 
+@_finite_calculation
 def decide(job: Job, job_length_h: float) -> dict:
     """Move vs stay over a job of `job_length_h`. Moving pays the downtime up
     front, then earns the price spread over the remaining time."""
-    d = job.migration_downtime_h
+    _finite("job_length_h", job_length_h, nonnegative=True)
+    d = _finite("migration_downtime_h", job.migration_downtime_h, nonnegative=True)
     remaining = max(0.0, job_length_h - d)
     saving = energy_saving_dollars(job, remaining)
     cost = job.migration_cost_dollars
@@ -88,18 +129,28 @@ def decide(job: Job, job_length_h: float) -> dict:
     }
 
 
+@_finite_calculation
 def breakeven_spread_mwh(job: Job, job_length_h: float) -> float:
     """The price spread ($/MWh) at which moving exactly breaks even over a job
     of `job_length_h`. Below this, staying wins."""
-    remaining = max(1e-9, job_length_h - job.migration_downtime_h)
-    return job.migration_cost_dollars / (job.power_mw * remaining)
+    _finite("job_length_h", job_length_h, nonnegative=True)
+    downtime = _finite("migration_downtime_h", job.migration_downtime_h, nonnegative=True)
+    if job_length_h <= downtime:
+        raise ValueError("job_length_h leaves no earning time; breakeven is undefined")
+    remaining = job_length_h - downtime
+    denominator = _finite("breakeven denominator", job.power_mw * remaining)
+    return job.migration_cost_dollars / denominator
 
 
+@_finite_calculation
 def scarcity_avoided_dollars(job: Job, spike_price_mwh: float, spike_hours: float) -> dict:
     """The value of moving OFF a site about to hit a scarcity price for
     `spike_hours`, vs staying and paying the spike. This is where relocation
     actually pays — a single avoided spike dwarfs the migration cost."""
-    stay_cost = job.power_mw * spike_price_mwh * spike_hours
+    _finite("spike_price_mwh", spike_price_mwh)
+    _finite("price_there_mwh", job.price_there_mwh)
+    _finite("spike_hours", spike_hours, nonnegative=True)
+    stay_cost = _finite("stay_cost", job.power_mw * spike_price_mwh * spike_hours)
     move_cost = job.migration_cost_dollars + job.power_mw * job.price_there_mwh * spike_hours
     return {
         "stay_through_spike_dollars": round(stay_cost, 0),

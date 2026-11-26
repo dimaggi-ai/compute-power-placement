@@ -57,6 +57,64 @@ def test_no_spread_never_moves_on_price_alone():
     assert decide(j, 720)["decision"] == "stay"
 
 
+
+def _refuses(call, field):
+    try:
+        call()
+    except ValueError as exc:
+        assert field in str(exc), str(exc)
+    else:
+        raise AssertionError('expected ValueError for ' + field)
+
+
+def test_price_refusal_mutation_and_recovery():
+    for field in ('price_here_mwh', 'price_there_mwh'):
+        for invalid in (float('nan'), float('inf'), -float('inf'), True, '60', None, 10**1000):
+            job = Job()
+            setattr(job, field, invalid)
+            _refuses(lambda: decide(job, 24), field)
+            _refuses(lambda: energy_saving_dollars(job, 24), field)
+            setattr(job, field, -10)
+            assert math.isfinite(decide(job, 24)['net_dollars'])
+    for invalid in (float('nan'), float('inf'), True, '60'):
+        _refuses(lambda: scarcity_avoided_dollars(Job(), invalid, 2), 'spike_price_mwh')
+    assert energy_saving_dollars(Job(price_here_mwh=-10, price_there_mwh=-20), 2) == Job().power_mw * 10 * 2
+    assert energy_saving_dollars(Job(price_here_mwh=0, price_there_mwh=0), 2) == 0
+
+
+def test_horizon_refusal_and_undefined_breakeven():
+    job = Job()
+    for horizon in (0, job.migration_downtime_h/2, job.migration_downtime_h):
+        _refuses(lambda: breakeven_spread_mwh(job, horizon), 'earning time')
+        assert decide(job, horizon)['decision'] == 'stay'
+    horizon = math.nextafter(job.migration_downtime_h, math.inf)
+    assert breakeven_spread_mwh(job, horizon) == job.migration_cost_dollars / (job.power_mw * (horizon-job.migration_downtime_h))
+    for horizon in (-1, float('nan'), float('inf'), True, '24'):
+        _refuses(lambda: decide(job, horizon), 'job_length_h')
+        _refuses(lambda: breakeven_spread_mwh(job, horizon), 'job_length_h')
+        _refuses(lambda: energy_saving_dollars(job, horizon), 'remaining_h')
+        _refuses(lambda: scarcity_avoided_dollars(job, 40, horizon), 'spike_hours')
+
+
+def test_nonfinite_derived_cost_is_refused():
+    _refuses(lambda: decide(Job(price_here_mwh=1e308), 24), 'finite')
+    _refuses(lambda: energy_saving_dollars(Job(price_here_mwh=1e308, price_there_mwh=-1e308), 2), 'finite')
+    _refuses(lambda: scarcity_avoided_dollars(Job(), 1e308, 24), 'finite')
+
+
+def test_numpy_horizons_used_by_published_plot_are_preserved():
+    import numpy as np
+    for price in (np.float64(-20), np.int64(0), np.float32(60)):
+        assert decide(Job(price_here_mwh=price), 24) == decide(Job(price_here_mwh=float(price)), 24)
+    for price in (np.float64('nan'), np.float64('inf'), np.bool_(True)):
+        _refuses(lambda: decide(Job(price_here_mwh=price), 24), 'price_here_mwh')
+    _refuses(lambda: energy_saving_dollars(Job(price_here_mwh=np.float64(1e308)), 24), 'finite')
+    for h in np.array([12, 24, 48, 72, 120, 168, 336, 720]):
+        assert breakeven_spread_mwh(Job(), h) == breakeven_spread_mwh(Job(), int(h))
+    _refuses(lambda: decide(Job(), np.bool_(True)), 'job_length_h')
+    _refuses(lambda: decide(Job(), np.float64('nan')), 'job_length_h')
+
+
 if __name__ == "__main__":
     for fn in sorted(k for k in dir() if k.startswith("test_")):
         globals()[fn]()
