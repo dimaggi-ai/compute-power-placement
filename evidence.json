@@ -221,7 +221,7 @@
   "artifacts": [
     {
       "path": "calc/move_vs_stay.py",
-      "sha256": "19165f6bfdab29b0ea62f934764c1893ae737336dd493c53b2a21ed8545eb3de"
+      "sha256": "2078218aac929e519fc8a60695862f6042025548908dd43c6a2e383f031c0c09"
     },
     {
       "path": "fleet/causal.py",
@@ -237,7 +237,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "2afe4f7746e9bc3932e22fa77c5ed695ca29f513fddcb6de6d1153152dd81051"
+      "sha256": "794220ee8c0b8fa5842d55287b071d49e300ec57d2250d6f34469305ae45dd11"
     }
   ]
 }

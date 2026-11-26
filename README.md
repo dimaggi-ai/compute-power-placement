@@ -94,3 +94,28 @@ Python 3.11+, `numpy`, `matplotlib`. Every calibration value is an input; see [d
 ---
 
 *Margaret (Maggie) Nanyonga — Founder & Principal Architect, [DIMAGGI AI](https://dimaggi.ai). Governed AI infrastructure: the control, reliability, and audit layer for autonomous systems operating production networks and compute.*
+
+### Electricity inputs and migration breakeven
+
+The move-vs-stay calculation functions and stay/stitch/move ledger refuse
+nonfinite or nonnumeric electricity prices with `ValueError`. Ordinary Python
+`int` and `float` prices are supported; booleans are not prices. Finite negative
+and zero prices remain valid. Checks run when a calculation consumes the input,
+including after changing a mutable `Job`. Hall base and spike declarations are
+validated even when the declared spike duration is zero.
+
+Consumed job, remaining and spike horizons must be finite nonnegative numbers.
+The ledger retains `None` and zero as no-deadline sentinels. For
+`breakeven_spread_mwh`, the job horizon must be **strictly greater** than migration
+downtime: otherwise `ValueError` reports that no earning time remains. `decide`
+can still return `stay` for a short or zero-duration job. No epsilon or infinite
+breakeven is substituted. Correct the input and call the function again.
+
+Overflow and nonfinite derived price/cost results in these calculation paths
+are refused rather than returned as a nominal decision. This is not complete
+validation of every hardware, capacity, circuit or cut parameter. In particular,
+the ledger's zero-work per-useful-GPU-hour calculation remains undefined;
+unrelated invalid model parameters can still raise their existing errors.
+Economic formulas, transition accounting, defaults and deadline comparisons
+are unchanged. These synthetic decisions authorize no energy purchase or
+hardware action.

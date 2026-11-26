@@ -279,6 +279,43 @@ def test_elapsed_correction_preserves_existing_compute_and_transition_dollar_cha
     assert [_opt(led, option)["duration_h"] for option in ("stay", "stitch", "move")] == [336.5, 171.5, 168.6]
 
 
+
+def _refuses(call, field):
+    try:
+        call()
+    except ValueError as exc:
+        assert field in str(exc), str(exc)
+    else:
+        raise AssertionError('expected ValueError for ' + field)
+
+
+def test_price_refusal_and_recovery():
+    for field in ('price_mwh', 'spike_price_mwh'):
+        for value in (float('nan'), float('inf'), -float('inf'), True, '60', None, 10**1000):
+            kwargs = {field:value}
+            bad = Hall('bad', 20000, **kwargs)
+            _refuses(lambda: bad.expected_price_mwh(), field)
+            _refuses(lambda: ledger(JOB, bad, Hall('away', 20000), CIRCUIT, pipeline_cut(JOB)), field)
+            _refuses(lambda: ledger(JOB, Hall('home', 20000), bad, CIRCUIT, pipeline_cut(JOB)), field)
+    assert Hall('negative', 20000, -20, -10, 84).expected_price_mwh() == -15
+    assert ledger(JOB, Hall('home', 20000, -10), Hall('away', 20000, 0), CIRCUIT, pipeline_cut(JOB))['decision'] == 'stay'
+
+
+def test_horizon_refusal_keeps_deadline_sentinels():
+    for value in (-1, float('nan'), float('inf'), True, '24'):
+        _refuses(lambda: Hall('h', 20000, spike_hours_per_week=value).expected_price_mwh(), 'spike_hours_per_week')
+        for field in ('hours_at_full', 'deadline_h'):
+            job = dataclasses.replace(JOB, **{field:value})
+            _refuses(lambda: ledger(job, Hall('h', 20000), Hall('a', 20000), CIRCUIT, pipeline_cut(job)), field)
+    a = ledger(JOB, Hall('h', 20000), Hall('a', 20000), CIRCUIT, pipeline_cut(JOB))
+    b = ledger(dataclasses.replace(JOB, deadline_h=0), Hall('h', 20000), Hall('a', 20000), CIRCUIT, pipeline_cut(JOB))
+    assert a == b
+
+
+def test_nonfinite_price_cost_refused_before_verdict():
+    _refuses(lambda: ledger(JOB, Hall('h', 20000, 1e308), Hall('a', 20000), CIRCUIT, pipeline_cut(JOB)), 'finite')
+
+
 if __name__ == "__main__":
     for fn in sorted(k for k in dir() if k.startswith("test_")):
         globals()[fn]()
