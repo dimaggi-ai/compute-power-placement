@@ -316,6 +316,20 @@ def test_nonfinite_price_cost_refused_before_verdict():
     _refuses(lambda: ledger(JOB, Hall('h', 20000, 1e308), Hall('a', 20000), CIRCUIT, pipeline_cut(JOB)), 'finite')
 
 
+def test_numpy_spike_horizons_used_by_published_plot_are_preserved():
+    import numpy as np
+    for price in (np.float64(-20), np.int64(0), np.float32(60)):
+        assert Hall('h', 20000, price).expected_price_mwh() == float(price)
+    for price in (np.float64('nan'), np.float64('inf'), np.bool_(True)):
+        _refuses(lambda: Hall('h', 20000, price).expected_price_mwh(), 'price_mwh')
+    _refuses(lambda: ledger(JOB, Hall('h', 20000, np.float64(1e308)), Hall('a', 20000), CIRCUIT, pipeline_cut(JOB)), 'finite')
+    for h in np.linspace(0, 24, 25):
+        actual = Hall('h', 20000, spike_price_mwh=5000, spike_hours_per_week=h).expected_price_mwh()
+        expected = Hall('h', 20000, spike_price_mwh=5000, spike_hours_per_week=float(h)).expected_price_mwh()
+        assert actual == expected
+    _refuses(lambda: Hall('h', 20000, spike_hours_per_week=np.bool_(True)).expected_price_mwh(), 'spike_hours_per_week')
+
+
 if __name__ == "__main__":
     for fn in sorted(k for k in dir() if k.startswith("test_")):
         globals()[fn]()

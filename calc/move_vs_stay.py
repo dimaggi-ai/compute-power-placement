@@ -19,11 +19,13 @@ from __future__ import annotations
 import dataclasses
 import math
 import functools
+import numbers
 
 
 def _finite(name, value, *, nonnegative=False):
     try:
-        valid = type(value) in (int, float) and math.isfinite(value)
+        numeric = isinstance(value, numbers.Real) and not isinstance(value, bool)
+        valid = numeric and math.isfinite(value)
     except OverflowError:
         valid = False
     if not valid or (nonnegative and value < 0):
@@ -40,7 +42,7 @@ def _finite_calculation(fn):
         except OverflowError as exc:
             raise ValueError(f"{fn.__name__} exceeds finite calculation range") from exc
         def check(value):
-            if type(value) in (int, float):
+            if isinstance(value, numbers.Real) and not isinstance(value, bool):
                 _finite(fn.__name__ + ' result', value)
             elif type(value) is dict:
                 for item in value.values():

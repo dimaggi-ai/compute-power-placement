@@ -98,8 +98,9 @@ Python 3.11+, `numpy`, `matplotlib`. Every calibration value is an input; see [d
 ### Electricity inputs and migration breakeven
 
 The move-vs-stay calculation functions and stay/stitch/move ledger refuse
-nonfinite or nonnumeric electricity prices with `ValueError`. Ordinary Python
-`int` and `float` prices are supported; booleans are not prices. Finite negative
+nonfinite or nonnumeric electricity prices with `ValueError`. Finite `numbers.Real`
+values are supported, including Python `int`/`float` and installed NumPy real
+scalars; booleans are not prices or horizons. Finite negative
 and zero prices remain valid. Checks run when a calculation consumes the input,
 including after changing a mutable `Job`. Hall base and spike declarations are
 validated even when the declared spike duration is zero.

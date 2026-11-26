@@ -102,6 +102,19 @@ def test_nonfinite_derived_cost_is_refused():
     _refuses(lambda: scarcity_avoided_dollars(Job(), 1e308, 24), 'finite')
 
 
+def test_numpy_horizons_used_by_published_plot_are_preserved():
+    import numpy as np
+    for price in (np.float64(-20), np.int64(0), np.float32(60)):
+        assert decide(Job(price_here_mwh=price), 24) == decide(Job(price_here_mwh=float(price)), 24)
+    for price in (np.float64('nan'), np.float64('inf'), np.bool_(True)):
+        _refuses(lambda: decide(Job(price_here_mwh=price), 24), 'price_here_mwh')
+    _refuses(lambda: energy_saving_dollars(Job(price_here_mwh=np.float64(1e308)), 24), 'finite')
+    for h in np.array([12, 24, 48, 72, 120, 168, 336, 720]):
+        assert breakeven_spread_mwh(Job(), h) == breakeven_spread_mwh(Job(), int(h))
+    _refuses(lambda: decide(Job(), np.bool_(True)), 'job_length_h')
+    _refuses(lambda: decide(Job(), np.float64('nan')), 'job_length_h')
+
+
 if __name__ == "__main__":
     for fn in sorted(k for k in dir() if k.startswith("test_")):
         globals()[fn]()
